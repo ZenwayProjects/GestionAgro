@@ -1,6 +1,5 @@
 package com.postgresql.connect.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -30,7 +29,7 @@ public class Persona {
     @Column(name = "per_genero")
     private char genero;
 
-    @Column(name = "fecha_nacimiento", nullable = true)
+    @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
     @Column(name = "per_email")
@@ -39,19 +38,10 @@ public class Persona {
     @Column(name = "per_estado")
     private int estado;
 
-    @Column(name = "per_identificacion")
+    @Column(name = "identificacion")
     private String identificacion;
 
     @Column( name = "tipo_identificacion", length = 3)
     private String tipoIdentificacion;
 
-    @Column(name = "direccion", nullable = true)
-    private String direccion;
-
-    @Column(name = "per_telefono")
-    private int telefono;
-
-    @OneToOne(mappedBy = "usu_persona", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Usuario usuario;
 }

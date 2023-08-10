@@ -1,6 +1,7 @@
 package com.postgresql.connect.controller;
 
 import com.postgresql.connect.model.Perfil;
+import com.postgresql.connect.model.Persona;
 import com.postgresql.connect.repo.PerfilRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,8 @@ public class PerfilController {
     @Autowired
     PerfilRepo perfilRepo;
 
-
     @PostMapping("api/perfil/create")
     public void addPerfil(@RequestBody Perfil perfil){
-        Perfil perfil2 = new Perfil();
         perfilRepo.save(perfil);
     }
 

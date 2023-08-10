@@ -1,317 +1,183 @@
-import React, { useState, useMemo, useCallback, useEffect,  } from "react";
-import { Button, Checkbox, Grid, IconButton, Stack, Typography, Modal} from "@mui/material/";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { Button, Checkbox, Divider, Grid, IconButton, Stack, Typography} from "@mui/material/";
 
 import AppBarComponent from "../../components/layouts/AppBarComponent";
-import _, { result, set } from "lodash";
+import _, { result } from "lodash";
 import DataTable from 'react-data-table-component';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box } from "@mui/system";
-
+import { PersonaApiGetRequest } from "../../requests/Persona/PersonaApiGetRequest";
+import { PersonaApiDeleteRequest } from "../../requests/Persona/PersonaApiDeleteRequest";
 import {dataBaseIp, dataBasePort} from "../../Backend";
-import PersonaModal from "../../components/modals/PersonaModal";
-import { ApiGetRequest } from "../../components/request/Crud/ApiGetRequest";
-import { ApiDeleteRequest } from "../../components/request/Crud/ApiDeleteRequest";
-import { ApiPostRequest } from "../../components/request/Crud/ApiPostRequest";
-import { ApiUpdateRequest } from "../../components/request/Crud/ApiUpdateRequest";
-import { Paper, TextField, makeStyles } from "@material-ui/core";
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import AddIcon from '@mui/icons-material/Add';
-import UpdateIcon from '@mui/icons-material/Update';
+
+
 
 const sortIcon = <ArrowDownward />;
+const selectProps = { indeterminate: isIndeterminate => isIndeterminate };
 
+// A super simple expandable component.
+const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
+  
 const customSort = (rows, selector, direction) => {
-  return _.orderBy(rows, selector, direction);
+    return _.orderBy(rows, selector, direction);
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    background: "none",
-    justifyContent: "space-between",
-  },
-  centeredContainer: {
-    display: "flex",
-    alignItems: "center",
-  },
-  paperSearch: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: 350,
-    height: "40px",
-    margin: "auto",
-    background:'#fff',
-    borderRadius:"4px",
-    boxShadow:"3px 2px 2px black",
-  },
-  stack: {
-    marginRight: 10,
-    paddingTop: 4,
-    display: "flex",
-    verticalAlign: "center",
-  },
-}));
 
-export default function RegisterTable() {
-  const classes = useStyles();
-  const [selectedRow, setSelectedRow] = useState([]);
-  const [toggleCleared, setToggleCleared] = useState(false);
-  const [data, setData] = useState([]);
-  const [modalData, setModalData] = useState(false);
-  const [modal, setModal] = useState(false);
-  const [resultInfo, setResultInfo] = useState([]);
-  const [limite, setLimite] = useState(10);
-  const [totalRecords, setTotalRecords] = useState(1);
-  const [offset, setOffset] = useState(0);
-  const [searchText, setSearchText] = useState("");
-  const [storedSearchValue, setStoredSearchValue] = useState("");
 
-  useEffect(() => {
-    fetchData();
-  }, [modal, limite, offset, storedSearchValue]);
 
-  const conditionalRowStyles = [
+   
+
+
+const data1 = [
     {
-      when: (row) => row.id === selectedRow?.id,
-      style: {
-        backgroundColor: "#CCE5FF",
-        userSelect: "none",
-      },
+        id: 1,
+        title: 'Beetlejuice',
+        year: '1988',
     },
-  ];
+    {
+        id: 2,
+        title: 'Ghostbusters',
+        year: '1984',
+    },
+   
+]
 
-  const handleAddRow = async (post) => {
-    console.log(post);
-    await ApiPostRequest(
-      `http://${dataBaseIp}:${dataBasePort}/api/persona/create`,
-      post
-    );
-    await fetchData();
-    setModal(false);
-  };
+const  Title_button = () => {
+return(
+    <Grid  style={{display:"flex", background:"none", justifyContent:"flex-end"}} >
 
-  const handleUpdateRow = async (post, id) => {
-    await ApiUpdateRequest(
-      `http://${dataBaseIp}:${dataBasePort}/api/persona/update/${id}`,
-      post
-    );
-    await fetchData();
-    setModal(false);
-  };
 
-  const handleDeleteRow = async (id) => {
-    ApiDeleteRequest(
-      `http://${dataBaseIp}:${dataBasePort}/api/persona/delete/${id}`
-    );
-    fetchData();
-    setModal(false);
-  };
 
-  const fetchData = async () => {
-    await ApiGetRequest(
-      `http://${dataBaseIp}:${dataBasePort}/api/persona/listbyparams`,
-      {
-        offset: offset,
-        limite: limite,
-        busqueda: storedSearchValue,
-      }
-    )
-      .then((data) => {
-        console.log(data);
-        setResultInfo(data.data);
-        setTotalRecords(data.data.totalRecords);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      setSelectedRow(null);
-  };
+<Stack direction="row" spacing={1} style={{ marginRight:10, paddingTop:4, display:"flex", verticalAlign:"center"}} >
 
-  const handleRowClicked = (row) => {
-    setSelectedRow(row.id === selectedRow?.id ? null : row);
-  };
+     
+<div style={{ display: 'flex', alignItems: 'center' }}>
+  <Typography>Agregar</Typography>
+</div>
+ 
 
-  const handleModal = (selected = {}, modalData = false) => {
-    console.log(selectedRow);
-    setData(selectedRow);
-    setModalData(modalData);
-    setModal(!modal);
-  };
+      <IconButton  color="primary" aria-label="delete"  style={{borderRadius: '0%'}} component="label">
+        
+        <AddBoxIcon  fontSize="large"/>
+      </IconButton>
+   
 
-  const handleLimite = (newLimite) => {
-    setLimite(newLimite);
-  };
+           
+    
+            </Stack>
+            
+            </Grid>
+          
+)
+}
 
-  const handleSearch = (event) => {
-    setSearchText(event.target.value);
-  };
 
-  const realizarBusqueda = () => {
-    setStoredSearchValue(searchText);
-    setOffset(0);
-  };
+ 
+  
+  export default function RegisterTable() {
 
-  const handleRowSelected = useCallback((state) => {
-    setSelectedRow(state.selectedRow);
-  });
 
-  const handleDelete = async  () => {
-    if (
-      window.confirm(`Seguro que deseas eliminar datos del id ${selectedRow?.id}?`)
-    ) {
-      setToggleCleared(!toggleCleared);
-      await ApiDeleteRequest(
-        `http://${dataBaseIp}:${dataBasePort}/api/persona/delete/${selectedRow.id}`
-      );
-      await fetchData();
-    }
-  };
+    let ResultInfo = PersonaApiGetRequest(`http://${dataBaseIp}:${dataBasePort}/api/persona/list`);
+  
 
-  const handleUpdate = () => {
-    handleModal(selectedRow, true);
-    setToggleCleared(!toggleCleared);
-  };
+    const [selectedRows, setSelectedRows] = useState([]);
+	const [toggleCleared, setToggleCleared] = useState(false);
+	const [data, setData] = useState(data1);
+  
 
-  const handleKeyDown = (event) => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      realizarBusqueda();
-    }
-  };
 
-  const selectableRowSelected = (row) => {
-    return row.id === selectedRow?.id;
-  };
 
-  return (
-    <>
-      <Modal open={modal} onClose={handleModal}>
-        <PersonaModal
-          setModal={setModal}
-          fetchData={fetchData}
-          rowData={!modalData ? [] : data}
-          modalData={modalData}
-          resultInfo={resultInfo?.data}
-          handleAddRow={handleAddRow}
-          handleUpdateRow={handleUpdateRow}
-        />
-      </Modal>
+  
+
+  
+
+
+	const handleRowSelected = useCallback(state => {
+		setSelectedRows(state.selectedRows);
+	}, );
 
     
-
-      {!resultInfo?.data ? (
-        <h1>NO hay Datos</h1>
-      ) : (
-        <Box>
-          <Grid className={classes.root}>
-            <Grid className={classes.centeredContainer}>
-              <form className={classes.paperSearch} component="form">
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Buscar"
-                  onChange={handleSearch}
-                  value={searchText}
-                  inputProps={{ "aria-label": "Buscar" }}
-                  onKeyDown={handleKeyDown}
-                />
-                <IconButton
-                  type="button"
-                  sx={{ p: "10px" }}
-                  onClick={realizarBusqueda}
-                  aria-label="search"
-                >
-                  <SearchIcon />
-                </IconButton>
-              </form>
-            </Grid>
-
-
-          <Typography variant="h3" style={{textAlign:"center", marginBottom:"10px"}}>Tabla Persona</Typography>
-
-            <Stack direction="row" spacing={1} className={classes.stack}>
-              <Button
-                key="agregar"
-                onClick={() => handleModal([], false)}
-                variant="outlined"
-                style={{
-                  backgroundColor: "transparent",
-                  margin: 10,
-                  border: "solid 2px",
-                }}
-                endIcon={<AddIcon/>}
-              >
-                Agregar
-              </Button>
-              <Button
-                key="update"
-                onClick={handleUpdate}
-                variant="outlined"
-                disabled={!selectedRow}
-                style={{
-                  backgroundColor: "transparent",
-                  margin: 10,
-                  border: "solid 2px",
-                }}
-                endIcon={<UpdateIcon/>}
-              >
-                Update
-              </Button>
-              <IconButton
-                onClick={handleDelete}
-                aria-label="delete"
-                disabled={!selectedRow}
-                style={{ borderRadius: "0%", marginRight: 20 }}
-                component="label"
-         
-              >
-                <DeleteIcon
-                  style={selectedRow ? { color: "red" } : { color: "grey" }}
-                  fontSize="large"
-                />
-              </IconButton>
-            </Stack>
-          </Grid>
-
-
-          <DataTable
-     
-            search
-            searchText={searchText}
-            pagination
-            paginationServer
-            columns={
-              resultInfo.data[0]
-                ? Object.keys(resultInfo.data[0]).map((key) => ({
-                    name: key,
-                    selector: (r) => r[key],
-                  }))
-                : []
+    const contextActions = useMemo(() => {
+        const handleDelete = () => {
+            
+            if (window.confirm(`Seguro que deseas eliminar datos del id ${selectedRows.map(r => r.id)}?`)) {
+                setToggleCleared(!toggleCleared);
+                selectedRows.map((row)=>{
+                  PersonaApiDeleteRequest(`http://${dataBaseIp}:${dataBasePort}/api/persona/delete/${row.id}`);
+                  
+                
+                });
+       
+                // ResultInfo.data =(_.differenceBy(ResultInfo.data, selectedRows));
+               // PersonaApiDeleteRequest(http://192.168.192.225:8080/api/persona/)
+                ResultInfo.data =(_.differenceBy(ResultInfo.data, selectedRows));
             }
-            data={resultInfo.data || []}
+        };
+            const handleUpdate = () => {
+            
+            if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.title)}?`)) {
+                setToggleCleared(!toggleCleared);
+             
+            }
+        };
+
+    
+    
+        return (
+            <Grid >
+           
+             <Button key="update" onClick={handleUpdate} variant="outlined" disabled={selectedRows.length != 1 ? true : false} style={{ backgroundColor: 'transparent',margin:10, border:"solid 2px" }} icon>
+             Update
+         </Button>
+
+         <IconButton onClick={handleDelete} aria-label="delete"  style={{borderRadius: '0%', marginRight:20}} component="label">
+        
+        <DeleteIcon  style={{color:"red"}} fontSize="large"/>
+      </IconButton>
+            </Grid>
+            
+        );
+
+    }, [ResultInfo.data, selectedRows, toggleCleared]);
+
+
+  
+    return (
+        <>
+
+        <AppBarComponent/>
+
+
+        {ResultInfo.loading ? 
+        <h1>Cargando...</h1>
+        :
+        <Box>
+        
+        <Title_button/>
+        <DataTable
+             title='Personas'
+            pagination
+            columns={Object.keys(ResultInfo.data[0]).map((key) => ({ name: key, selector: r => r[key]}))}
+            data={ResultInfo.data}
+            selectableRowsComponent={Checkbox}
             sortIcon={sortIcon}
             responsive="true"
             striped="true"
             highlightOnHover="true"
             sortFunction={customSort}
-            onSelectedRowChange={handleRowSelected}
-            clearSelectedRow={toggleCleared}
-            paginationPerPage={limite}
-            paginationRowsPerPageOptions={[10, 20, 50]}
-            paginationTotalRows={totalRecords}
-            onChangePage={(newOffset) => setOffset(newOffset - 1)}
-            onChangeRowsPerPage={(newLimite) => setLimite(newLimite)}
-            contextMessage={false}
-            onRowClicked={handleRowClicked}
-            conditionalRowStyles={conditionalRowStyles}
-            selectableRowSelected={selectableRowSelected}
-          />
-        </Box>
-      )}
-    </>
-  );
-}
+            selectableRows
+            contextActions={contextActions}
+			onSelectedRowsChange={handleRowSelected}
+			clearSelectedRows={toggleCleared}
+        
+        />
+        </Box>    
+    }
 
+      
+       </>
+        
+    );
+  }

@@ -1,5 +1,6 @@
 package com.postgresql.connect.controller;
 
+import com.postgresql.connect.model.Persona;
 import com.postgresql.connect.model.UsuarioPerfil;
 import com.postgresql.connect.repo.UsuarioPerfilRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,8 @@ public class UsuarioPerfilController {
         Optional<UsuarioPerfil> usuarioPerfilExistenteOptional = usuarioPerfilRepo.findById(id);
         if (usuarioPerfilExistenteOptional.isPresent()) {
             UsuarioPerfil usuarioPerfilExistente = usuarioPerfilExistenteOptional.get();
-            /*usuarioPerfilExistente.setUsp_usuario(usuarioPerfil.getUsp_usuario());
-            usuarioPerfilExistente.setUsp_perfil(usuarioPerfil.getUsp_perfil());*/
+            usuarioPerfilExistente.setUsp_usuario(usuarioPerfil.getUsp_usuario());
+            usuarioPerfilExistente.setUsp_perfil(usuarioPerfil.getUsp_perfil());
             usuarioPerfilExistente.setUsp_estado(usuarioPerfil.getUsp_estado());
             return usuarioPerfilRepo.save(usuarioPerfilExistente);
         }else{

@@ -16,7 +16,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { dataBaseIp, dataBasePort } from "../../Backend";
-import { ApiPostRequest } from "../request/Crud/ApiPostRequest";
 
 
 
@@ -49,11 +48,8 @@ export default function RegisterForm() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const classes = useStyles();
-
-  //Validacion regex de la contraseña
 const regexPassword ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$";
 
-//Requerimientos necesarios para cada campo
   const formSchema = Yup.object().shape({
     firstName:Yup.string().required('Campo Requerido'),
     lastName:Yup.string().required("Campo Requerido"),
@@ -63,12 +59,11 @@ const regexPassword ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).
     typeIdentification:Yup.string().required(),
     address:Yup.string().required(),
     phone:Yup.number().required(),
-    idNum:Yup.string().required(),
+    idNum:Yup.number().required(),
     genre:Yup.string().required(),
   
   })
 
-  // Funcion para la peticion post con los datos ingresados
   const sendRegister = async (submitValues) => {
 
     const post = {
@@ -76,16 +71,17 @@ const regexPassword ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).
       apellido:submitValues.lastName,
       genero: submitValues.genre,
       fechaNacimiento:submitValues.birthDate,
-      direccion:submitValues.address,
-      telefono:submitValues.phone,
       email:submitValues.email,
       estado:0,
       identificacion:submitValues.idNum,
       tipoIdentificacion:submitValues.typeIdentification
       }
-
-      ApiPostRequest(`http://${dataBaseIp}:${dataBasePort}/api/persona/create`, post);
-   
+    try {
+      const res = await axios.post(`http://${dataBaseIp}:${dataBasePort}/api/persona/create`, post)
+      console.log(res.data)
+    } catch (e) {
+      alert(e)
+    }
   }
 
 
@@ -120,7 +116,6 @@ const regexPassword ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).
 validationSchema = {formSchema}
   
          onSubmit={(submitValues)=>{
-          //Llamando a la funcion de registro de datos
        sendRegister(submitValues);
        console.log(submitValues);
          }}
@@ -130,8 +125,6 @@ validationSchema = {formSchema}
 <form className={classes.form} onSubmit={handleSubmit}>
 
 <Grid container spacing={2}>
-
-  {/* Input Nombre */}
   <Grid item xs={12} sm={3}>
     <TextField
      type="text"
@@ -147,9 +140,10 @@ validationSchema = {formSchema}
       onBlur={handleBlur}
       error={errors.firstName && touched.firstName}
       helperText={errors.firstName}
-    />
+    
+      
 
-  {/* Input Apellido */}
+    />
   </Grid>
   <Grid item xs={12} sm={3}>
     <TextField
@@ -170,10 +164,7 @@ validationSchema = {formSchema}
   </Grid>
 
   <Grid item xs={12} sm={6}>
-
     <Grid container spacing={0}>
-
-      {/* Select del Tipo de identificacion */}
       <Grid item xs={2} sm={3}>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel htmlFor="outlined-age-native-simple">Tipo</InputLabel>
@@ -183,9 +174,11 @@ validationSchema = {formSchema}
             required
             fullWidth
             label="tipo"
-            name="typeIdentification"    
+            name="typeIdentification"
+        
             onChange={handleChange}
             onBlur={handleBlur}
+        
           >
             <option default aria-label="None" value="" />
             <option value="CC">C.C.</option>
@@ -195,13 +188,11 @@ validationSchema = {formSchema}
             <option value="NIT">NIT</option>
             <option value="CIF">CIF</option>
           </Select>
-        </FormControl>  
+        </FormControl>
       </Grid>
-
-        {/* Input Identificación */}
       <Grid item xs={10} sm={9}>
         <TextField  
-         type="text"
+         type="number"
           variant="outlined"
           required
           fullWidth
@@ -222,19 +213,20 @@ validationSchema = {formSchema}
     </Grid>
   </Grid>
 
-
-  {/* Input género */}
   <Grid item xs={12} sm={4}>
   <FormControl variant="outlined" style={{width:"100%"}} className={classes.formControl}>
           <InputLabel htmlFor="outlined-age-native-simple">Género</InputLabel>
           <Select
             native
             variant="outlined"
+          
             fullWidth
             label="tipo"
             name="genre"
+         
             onChange={handleChange}
             onBlur={handleBlur}
+        
           >
             <option aria-label="None" value="" />
             <option value="M">Masculino</option>
@@ -243,25 +235,22 @@ validationSchema = {formSchema}
           </Select>
         </FormControl>
   </Grid>
-
-
- {/* Input Fecha -> Calendario */}
   <Grid item xs={12} sm={8} style={{alignContent:"center"}}>
- 
+
   <DatePicker  
   label="Fecha de nacimiento"
-  slotProps={{ textField:{fullWidth: true }}} 
+   slotProps={{ textField:{fullWidth: true }}} 
+
    name="birthDate"
    id="birthDate"
    onChange={(value) => {
     setFieldValue('birthDate', value ? value.toISOString().slice(0, 10) : null);
     }}
    format="YYYY/MM/DD"
+
    />
 
   </Grid>
-
-   {/* Input número telefónico */}
   <Grid item xs={12} sm={4}>
     <TextField
       type="number"
@@ -280,10 +269,9 @@ validationSchema = {formSchema}
    
     />
   </Grid>
-
-   {/* Input Dirección */}
   <Grid item xs={12} sm={8}>
     <TextField
+     
      type="text"
       variant="outlined"
       required
@@ -294,6 +282,7 @@ validationSchema = {formSchema}
       autoComplete="address"
       InputProps={{
         startAdornment: <InputAdornment position="start"><HomeIcon /></InputAdornment>
+        
       }}
       value={values.address}
       onChange={handleChange}
@@ -303,7 +292,7 @@ validationSchema = {formSchema}
     />
   </Grid>
 
- {/* Input Usuario */}
+
   <Grid item xs={12}>
     <TextField
      type="text"
@@ -324,8 +313,6 @@ validationSchema = {formSchema}
     />
   </Grid>
   
-
-   {/* Input Correo */}
   <Grid item xs={12}>
     <TextField
      type="text"
@@ -344,8 +331,6 @@ validationSchema = {formSchema}
       error={errors.email&& touched.email}
     />
   </Grid>
-
-   {/* Input Contraseña */}
   <Grid item xs={12}>
     <TextField
       variant="outlined"
@@ -377,8 +362,6 @@ validationSchema = {formSchema}
       helperText={errors.password}
     />
   </Grid>
-
-   {/* Checkbox notificaciones */}
   <Grid item xs={12}>
     <FormControlLabel
       control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -386,7 +369,6 @@ validationSchema = {formSchema}
     />
   </Grid>
 </Grid>
- {/* Boton de registro */}
 <Button
   type="submit"
   fullWidth
@@ -396,7 +378,6 @@ validationSchema = {formSchema}
 >
   Registrarse
 </Button>
- {/* Link de redireccionamiento a login */}
 <Grid container justifyContent="flex-end">
   <Grid item>
     <Link href="#" variant="body2">

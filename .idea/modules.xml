@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GestionAgro.iml" filepath="$PROJECT_DIR$/.idea/GestionAgro.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Backend/connect/connect.iml" filepath="$PROJECT_DIR$/Backend/connect/connect.iml" />
     </modules>
   </component>
 </project>
