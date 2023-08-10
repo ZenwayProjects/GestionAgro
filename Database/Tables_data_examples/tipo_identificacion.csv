@@ -1,0 +1,6 @@
+id,nombre,acronimo,estado
+1,Cedula de ciudadanía,CC,1
+2,Tarjeta de identidad,TI,1
+3,Número de Identificación personal,NIP,1
+4,Documento Nacional de Identidad,DNI,1
+5,Pasaporte,PP,0

@@ -1,0 +1,74 @@
+[
+  {
+    "metodo": "GET",
+    "ruta": "/api/usuario/list",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/usuario/mi-info",
+    "roles": ["USER", "ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/usuario/{id}",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "DELETE",
+    "ruta": "/api/usuario/delete/{id}",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "PATCH",
+    "ruta": "/api/usuario/update/{id}",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "POST",
+    "ruta": "/api/persona/create",
+    "roles": ["ADMIN"]
+  },
+
+  {
+    "metodo": "GET",
+    "ruta": "/api/persona/list",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/persona/listbyparams",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "DELETE",
+    "ruta": "/api/persona/delete/{id}",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "POST",
+    "ruta": "/api/idioma/create",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/idioma/list",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/idioma/listbyparams",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "GET",
+    "ruta": "/api/idioma/getidioma",
+    "roles": ["ADMIN"]
+  },
+  {
+    "metodo": "DELETE",
+    "ruta": "/api/idioma/delete/{id}",
+    "roles": ["ADMIN"]
+  }
+
+]

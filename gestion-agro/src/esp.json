@@ -1,0 +1,19 @@
+{
+        "authentication":"Autenticación",
+        "table":"Tabla",
+        "tables":"Tablas",
+        "sign_in":"Iniciar sesión",
+        "sign_up":"Registrarse",
+        "tittle_sign_up":"Registrate",
+        "logout":"Cerrar sesión",
+        "welcome":"Bienvenido",
+        "required_user":"Correo electrónico o usuario",
+        "user":"usuario",
+        "password":"Contraseña",
+        "remember_me": "recordarme",
+        "forgot_password": "¿Olvidaste la contraseña?",
+        "not_account": "¿No tienes una cuenta?, crea una",
+        "database": "Base de datos",
+        "storage": "Almacenamiento",
+        "host": "Servidor"
+}

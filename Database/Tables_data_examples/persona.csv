@@ -1,0 +1,6 @@
+id,tipo_identificacion_id,identificacion,genero,fecha_nacimiento,apellido,nombre,correo,telefono,municipio_id,direccion,estado
+1,2,1004007332,M,2000-10-11,Lopez Moralez,Juan Alfonso,JuanLopez02@gmail.com,3125673245,2,Cr 8 #1C-45 Candido,1
+2,3,100321233,F,2003-09-23,Castillo Rojas,Maria José,LaMaria11@hotmail.com,3155618757,3,Calle 3 #2G-23 Caña brava,0
+3,1,26583456,F,1992-06-12,Perez Carvajal,Valentina,Valentina212@gmail.com,3131323245,1,Cra. 18a Sur #7-38 a 7-2,1
+4,3,3023123123,M,1989-02-02,Galindo Tovar,Juan Miguel,Miguelito23@hotmail.com,3267645213,2,Cra. 6 #1-92,1
+5,4,103213123,M,2000-10-19,Andrade Rojas,Jorge ,arjorge@outlook.com,8717120,3,Cra 5 #3 -01,0

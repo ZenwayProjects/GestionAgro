@@ -1,0 +1,25 @@
+
+    {
+ 
+        "authentication":"authentication",
+        "table":"Table",
+        "tables":"Tables",
+        "sign_in":"Sign in",
+        "sign_up":"Sign up",
+        "tittle_sign_in":"Sign up",
+        "logout":"Logout",
+        "welcome":"Welcome",
+        "required_user":"Email or user",
+        "user":"User",
+        "password":"Password",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgot password?",
+        "not_account": "Still dont have?, Sign In",
+        "required_field":"Required field",
+        "database": "Database",
+        "storage": "Storage",
+        "host": "Host"
+
+
+
+}

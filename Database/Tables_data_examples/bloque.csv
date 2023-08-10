@@ -1,0 +1,6 @@
+id,zona_id,nombre,nomenclatura,latitud,longitud,altitud,area,poligono,direccion,estado_id
+1,1,Estanque 1,EST1,2,8.273,-7,236,{()},Cra 8 #1G-23 los pastizales,1
+2,1,estanque 2,EST2,3,4,6,234.4,,calle 2 #6H-45 Candido,1
+3,1,administracion,Adminis,3,2,6,324,,Cra 7 #1B-23 Chicala,1
+4,4,principal,PRIN,5,42,5,364.45,,calle 5 #1C-32 Estadio urdaneta,1
+5,5,Principal,PRIN,-3,4,6,1231,,Cra 7 #1B-26 Chicala,1
