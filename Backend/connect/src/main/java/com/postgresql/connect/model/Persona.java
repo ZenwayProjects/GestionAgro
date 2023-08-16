@@ -45,7 +45,7 @@ public class Persona {
     @Column( name = "tipo_identificacion", length = 3)
     private String tipoIdentificacion;
 
-    @Column(name = "direccion", nullable = true)
+    @Column(name = "per_direccion", nullable = true)
     private String direccion;
 
     @Column(name = "per_telefono")

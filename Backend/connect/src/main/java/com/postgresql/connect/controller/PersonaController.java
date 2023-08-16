@@ -1,5 +1,7 @@
 package com.postgresql.connect.controller;
 
+import com.postgresql.connect.model.Usuario;
+import com.postgresql.connect.repo.UsuarioRepo;
 import com.postgresql.connect.specs.PersonaSpecs;
 import com.postgresql.connect.model.Persona;
 import com.postgresql.connect.repo.PersonaRepo;
@@ -25,6 +27,7 @@ public class PersonaController {
 
     @Autowired
     PersonaRepo personaRepo;
+    UsuarioRepo usuarioRepo;
 
 
     @PostMapping("create")
@@ -75,8 +78,23 @@ public class PersonaController {
     }
 
     @DeleteMapping("delete/{id}")
-    public void deleteById(@PathVariable Long id){
-        personaRepo.deleteById(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        Optional<Persona> personaOptional = personaRepo.findById(id);
+
+        if (personaOptional.isPresent()) {
+            Persona persona = personaOptional.get();
+            Usuario usuario = persona.getUsuario();
+
+            if (usuario != null) {
+                usuarioRepo.delete(usuario); // Elimina el usuario asociado
+            }
+
+            personaRepo.delete(persona); // Elimina la persona
+
+            return ResponseEntity.ok("Persona y usuario eliminados correctamente.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("{id}")

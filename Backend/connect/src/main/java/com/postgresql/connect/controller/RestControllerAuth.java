@@ -10,6 +10,7 @@ import com.postgresql.connect.repo.PerfilRepo;
 import com.postgresql.connect.repo.PersonaRepo;
 import com.postgresql.connect.repo.UsuarioRepo;
 import com.postgresql.connect.security.JwtGenerador;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,12 +48,52 @@ public class RestControllerAuth {
         this.jwtGenerador = jwtGenerador;
     }
 
+    @PostMapping("register")
+    public ResponseEntity<String> registrar(@RequestBody DtoRegistro dtoRegistro) {
+        if (usuarioRepo.existsByLogin(dtoRegistro.getLogin())) {
+            return new ResponseEntity<>("El usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
+        }
 
+        // Crear una instancia de Persona con la información del DTO
+        Persona persona = getPersona(dtoRegistro);
+        // Resto de los campos de Persona
+
+        // Guardar la persona en la base de datos
+        personaRepo.save(persona);
+
+        // Crear una instancia de Usuario con la información del DTO
+        Usuario usuario = new Usuario();
+        usuario.setUsu_persona(persona);
+        usuario.setLogin(dtoRegistro.getLogin());
+        usuario.setPassword(passwordEncoder.encode(dtoRegistro.getPassword()));
+        Perfil perfil = perfilRepo.findByPerfil("USER").orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
+        usuario.setPerfiles(Collections.singletonList(perfil));
+        usuario.setEstado(Math.toIntExact(dtoRegistro.getEstado())); // Establecer el estado del usuario
+        usuarioRepo.save(usuario);
+
+        return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
+    }
+
+    @NotNull
+    private static Persona getPersona(DtoRegistro dtoRegistro) {
+        Persona persona = new Persona();
+        persona.setNombre(dtoRegistro.getNombre());
+        persona.setApellido(dtoRegistro.getApellido());
+        persona.setGenero(dtoRegistro.getGenero());
+        persona.setFechaNacimiento(dtoRegistro.getFechaNacimiento());
+        persona.setEmail(dtoRegistro.getEmail());
+        persona.setTipoIdentificacion(dtoRegistro.getTipoIdentificacion());
+        persona.setIdentificacion(dtoRegistro.getIdentificacion());
+        persona.setDireccion(dtoRegistro.getDireccion());
+        persona.setTelefono(dtoRegistro.getTelefono());
+        persona.setEstado(Math.toIntExact(dtoRegistro.getEstado()));
+        return persona;
+    }
 
 
     //Método para poder registrar usuarios con role "user"
-    @PostMapping("register")
-    public ResponseEntity<String> registrar(@RequestBody DtoRegistro dtoRegistro) {
+    /*@PostMapping("register1")
+    public ResponseEntity<String> registrar1(@RequestBody DtoRegistro dtoRegistro) {
         if (usuarioRepo.existsByLogin(dtoRegistro.getLogin())) {
             return new ResponseEntity<>("el usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
         }
@@ -93,7 +134,34 @@ public class RestControllerAuth {
         usuarios.setPerfiles(Collections.singletonList(perfil));
         usuarioRepo.save(usuarios);
         return new ResponseEntity<>("Registro de admin exitoso", HttpStatus.OK);
+    }*/
+
+    @PostMapping("registerAdm")
+    public ResponseEntity<String> registrarAdmin(@RequestBody DtoRegistro dtoRegistro) {
+        if (usuarioRepo.existsByLogin(dtoRegistro.getLogin())) {
+            return new ResponseEntity<>("El usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
+        }
+
+        // Crear una instancia de Persona con la información del DTO
+        Persona persona = getPersona(dtoRegistro);
+        // Resto de los campos de Persona
+
+        // Guardar la persona en la base de datos
+        personaRepo.save(persona);
+
+        // Crear una instancia de Usuario con la información del DTO
+        Usuario usuario = new Usuario();
+        usuario.setUsu_persona(persona);
+        usuario.setLogin(dtoRegistro.getLogin());
+        usuario.setPassword(passwordEncoder.encode(dtoRegistro.getPassword()));
+        Perfil perfil = perfilRepo.findByPerfil("ADMIN").orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
+        usuario.setPerfiles(Collections.singletonList(perfil));
+        usuario.setEstado(Math.toIntExact(dtoRegistro.getEstado())); // Establecer el estado del usuario
+        usuarioRepo.save(usuario);
+
+        return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
     }
+    
 
 
 
