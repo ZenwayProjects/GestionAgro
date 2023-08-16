@@ -1,4 +1,4 @@
-# My Spring Boot Project
+# GestionAgro Springboot and Reactjs project
 GestionAgro is a Spring Boot application designed to streamline agricultural management processes. It offers features such as user authentication, user roles and permissions, and CRUD operations for managing agricultural data.
 
 ## Requirements
