@@ -1,6 +1,6 @@
 package com.postgresql.connect.controller;
 
-import com.postgresql.connect.Specs.IdiomaSpecs;
+import com.postgresql.connect.specs.IdiomaSpecs;
 import com.postgresql.connect.model.Idioma;
 import com.postgresql.connect.repo.IdiomaRepo;
 import com.postgresql.connect.utils.PaginatedResponse;

@@ -75,7 +75,8 @@ public class SecurityConfig {
                 //Toda peticion debe ser autorizada
                 .authorizeHttpRequests(authorizeHttpRequests -> {
                     authorizeHttpRequests
-                            .requestMatchers("/api/auth/**").permitAll();
+                            .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/api/idioma/**").permitAll();
 
                     for (RutaConfig rutaConfig : rutaConfigs) {
                         for (String role : rutaConfig.getRoles()) {

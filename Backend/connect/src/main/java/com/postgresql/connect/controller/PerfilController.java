@@ -1,7 +1,6 @@
 package com.postgresql.connect.controller;
 
 import com.postgresql.connect.model.Perfil;
-import com.postgresql.connect.model.Persona;
 import com.postgresql.connect.repo.PerfilRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,28 +11,30 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/perfil/")
 
 public class PerfilController {
 
     @Autowired
     PerfilRepo perfilRepo;
 
-    @PostMapping("api/perfil/create")
+
+    @PostMapping("create")
     public void addPerfil(@RequestBody Perfil perfil){
         perfilRepo.save(perfil);
     }
 
-    @GetMapping("api/perfil/list")
+    @GetMapping("list")
     public List<Perfil> getAllPerfiles(){
         return perfilRepo.findAll();
     }
 
-    @DeleteMapping("api/perfil/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteById(@PathVariable Long id){
         perfilRepo.deleteById(id);
     }
 
-    @PutMapping("api/perfil/update/{id}")
+    @PutMapping("update/{id}")
     public Perfil updatePerfil(@PathVariable Long id, @RequestBody Perfil perfil){
         Optional<Perfil> perfilExistenteOptional = perfilRepo.findById(id);
         if (perfilExistenteOptional.isPresent()) {

@@ -46,6 +46,10 @@ public class RestControllerAuth {
         this.personaRepo = personaRepo;
         this.jwtGenerador = jwtGenerador;
     }
+
+
+
+
     //Método para poder registrar usuarios con role "user"
     @PostMapping("register")
     public ResponseEntity<String> registrar(@RequestBody DtoRegistro dtoRegistro) {
@@ -67,6 +71,10 @@ public class RestControllerAuth {
         return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
     }
 
+
+
+
+
     //Método para poder guardar usuarios de tipo ADMIN
     @PostMapping("registerAdm")
     public ResponseEntity<String> registrarAdmin(@RequestBody DtoRegistro dtoRegistro) {
@@ -86,6 +94,9 @@ public class RestControllerAuth {
         usuarioRepo.save(usuarios);
         return new ResponseEntity<>("Registro de admin exitoso", HttpStatus.OK);
     }
+
+
+
 
     //Método para poder logear un usuario y obtener un token
     @PostMapping("login")
