@@ -12,6 +12,7 @@ import PerfilTable from '../../views/Tables/PerfilTable';
 import RegisterTable from '../../views/Tables/RegisterTable';
 import UserTable from '../../views/Tables/UserTable';
 import UsuarioPerfilTable from "../../views/Tables/UsuarioPerfilTable";
+import { Button } from '@mui/material';
 
 
 function Copyright() {
@@ -173,6 +174,8 @@ const drawerWidth = 256;
 
 export default function Paperbase(props) {
 
+
+
   const [nameComponent, setNameComponent] = React.useState("PerfilTable");
 
 const components = {
@@ -192,6 +195,13 @@ const Content = components[nameComponent]; // Accede al componente según el nom
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.setItem('isLogged',JSON.stringify(false));
+    window.location.href = '/login';
+  }
 
 
   return (
@@ -226,9 +236,13 @@ const Content = components[nameComponent]; // Accede al componente según el nom
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
          
             <Copyright />
+            <Button onClick={()=> handleLogout()}>logout</Button>
           </Box>
         </Box>
+        
       </Box>
+      
     </ThemeProvider>
+    
   );
 }

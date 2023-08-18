@@ -30,6 +30,7 @@ const AppBarComponent = () => {
           icon={props => <Icon name="menu" {...props} />}
           {...props}
         />
+        
       )}
       trailing={props =>
         loggedIn ? (
@@ -49,10 +50,13 @@ const AppBarComponent = () => {
             style={{ marginEnd: 4 }}
             {...props}
           />
+          
         
 
          
         )
+
+        
       }
     />
   );

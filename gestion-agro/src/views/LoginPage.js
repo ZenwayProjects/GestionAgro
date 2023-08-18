@@ -9,7 +9,7 @@ import AppBarComponent from "../components/layouts/AppBarComponent";
   
     return (
      <>
-      <AppBarComponent/>
+ 
      <LoginForm/>
      
      </>
