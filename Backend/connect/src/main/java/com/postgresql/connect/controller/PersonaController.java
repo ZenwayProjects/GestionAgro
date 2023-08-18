@@ -26,8 +26,10 @@ import org.springframework.data.domain.Pageable;
 public class PersonaController {
 
     @Autowired
-    PersonaRepo personaRepo;
     UsuarioRepo usuarioRepo;
+
+    @Autowired
+    PersonaRepo personaRepo;
 
 
     @PostMapping("create")
@@ -86,7 +88,14 @@ public class PersonaController {
             Usuario usuario = persona.getUsuario();
 
             if (usuario != null) {
-                usuarioRepo.delete(usuario); // Elimina el usuario asociado
+                // Eliminar referencias en usuario_perfil si existen
+                usuario.getPerfiles().clear(); // Asegura que los perfiles se desvinculen
+                usuarioRepo.save(usuario); // Guarda el usuario actualizado
+
+                usuarioRepo.delete(usuario); // Elimina el usuario
+
+                // Ahora que el usuario no tiene referencias en usuario_perfil, se puede eliminar la persona
+                personaRepo.delete(persona); // Elimina la persona
             }
 
             personaRepo.delete(persona); // Elimina la persona

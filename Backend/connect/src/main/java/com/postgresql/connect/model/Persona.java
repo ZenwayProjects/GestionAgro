@@ -30,10 +30,11 @@ public class Persona {
     @Column(name = "per_genero")
     private char genero;
 
-    @Column(name = "fecha_nacimiento", nullable = true)
+
+    @Column(name = "fecha_nacimiento", nullable = true, unique = true)
     private Date fechaNacimiento;
 
-    @Column(name = "per_email")
+    @Column(name = "per_email", length = 64)
     private String email;
 
     @Column(name = "per_estado")

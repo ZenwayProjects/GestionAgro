@@ -20,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +73,17 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) ->
                         sessionManagement
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))//Permite la gestion de sesiones
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors
+                .configurationSource(request -> {
+                    CorsConfiguration corsConfig = new CorsConfiguration();
+                    corsConfig.addAllowedOrigin("http://localhost:8080");
+                    corsConfig.addAllowedOrigin("http://localhost:3000");
+                    corsConfig.addAllowedHeader("*");
+                    corsConfig.addAllowedMethod("*");
+                    corsConfig.setAllowCredentials(true);
+                    return corsConfig;
+                }))
+
 
                 //Toda peticion debe ser autorizada
                 .authorizeHttpRequests(authorizeHttpRequests -> {
@@ -98,5 +111,4 @@ public class SecurityConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(rutaConfigResource.getInputStream(), new TypeReference<List<RutaConfig>>() {});
     }
-
 }
