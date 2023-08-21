@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>connect</name>
 	<description>Project for Spring Boot with postgresql</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -113,14 +114,26 @@
 			<artifactId>resource</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.javiersc.resource</groupId>
 			<artifactId>resource</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlinx</groupId>
+			<artifactId>kotlinx-serialization-core</artifactId>
+			<version>1.5.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>gestionagro</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

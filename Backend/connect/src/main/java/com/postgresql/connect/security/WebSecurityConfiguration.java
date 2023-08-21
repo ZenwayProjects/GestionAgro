@@ -1,4 +1,4 @@
-package com.postgresql.connect.security;
+/*package com.postgresql.connect.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebSecurityConfiguration {
 
 
-   /* @Bean
+    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -42,6 +42,6 @@ public class WebSecurityConfiguration {
             }
 
         };
-    }*/
+    }
 
-}
+}*/

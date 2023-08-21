@@ -1,9 +1,17 @@
 package com.postgresql.connect.controller;
 
+import com.postgresql.connect.model.Persona;
 import com.postgresql.connect.model.Usuario;
 import com.postgresql.connect.repo.UsuarioRepo;
 import com.postgresql.connect.security.CustomUserDetails;
+import com.postgresql.connect.specs.PersonaSpecs;
+import com.postgresql.connect.specs.UsuarioSpecs;
+import com.postgresql.connect.utils.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,6 +39,43 @@ public class UsuarioController {
     @GetMapping(value = "list")
     public List<Usuario> getAllUsuarios() {
         return usuarioRepo.findAll();
+    }
+
+    @GetMapping("listbyparams")
+    public ResponseEntity<PaginatedResponse<Usuario>> getAllUsuarios2(
+            @RequestParam("limite") int limite,
+            @RequestParam("offset") int offset,
+            @RequestParam(value = "busqueda", required = false) String busqueda
+    ) {
+
+
+
+
+        Pageable pageable = PageRequest.of(offset, limite);
+        Page<Usuario> page;
+
+        Specification<Usuario> specs = UsuarioSpecs.searchByCriteria(busqueda); // Crear la especificación
+
+        if (busqueda != null && !busqueda.isEmpty()) {
+            page = usuarioRepo.findAll(specs, pageable); // Utilizar la especificación en la consulta
+        } else {
+            page = usuarioRepo.findAll(pageable);
+        }
+
+        List<Usuario> usuarios = page.getContent();
+        long totalRecords;
+
+        if (busqueda != null && !busqueda.isEmpty()) {
+            totalRecords = usuarioRepo.count(specs); // Contar utilizando la especificación
+        } else {
+            totalRecords = usuarioRepo.count();
+        }
+
+        PaginatedResponse<Usuario> response = new PaginatedResponse<>(usuarios, totalRecords);
+
+
+        // Devolver la respuesta con el código de estado 200 (OK)
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("mi-info")
